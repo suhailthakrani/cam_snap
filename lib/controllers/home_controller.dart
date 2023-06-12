@@ -17,6 +17,11 @@ class HomeController extends GetxController{
     cameraController!.initialize();
   }
 
+  void switchCamer(int cameraIndex) {
+    selectedCamera = cameraIndex;
+    notifyChildrens();
+  }
+
   @override
   void dispose() {
     cameraController!.dispose();

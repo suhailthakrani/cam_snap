@@ -1,7 +1,10 @@
 import 'package:cam_snap/controllers/home_controller.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'components/camera_widget.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -9,8 +12,13 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final camera = controller.cameras.first;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           centerTitle: true,
           title: const Text(
             "Cam Snap",
@@ -27,16 +35,27 @@ class HomeScreen extends GetView<HomeController> {
             if (snapshot.connectionState == ConnectionState.done) {
               return Column(
                 children: [
-                  CameraPreview(controller.cameraController!,),
+                  Expanded(
+                    child: CameraWidget(
+                        controller: controller, height: height, width: width),
+                  ),
                 ],
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return _loadingWidget();
             }
-            return const Center(
-              child: Text("Ups! Something went wrong."),
-            );
+            return _errorWidget();
           },
         ));
   }
+
+  Center _loadingWidget() => const Center(child: CircularProgressIndicator());
+
+  Center _errorWidget() {
+    return const Center(
+      child: Text("Ups! Something went wrong."),
+    );
+  }
 }
+
+

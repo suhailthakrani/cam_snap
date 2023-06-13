@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../controllers/home_controller.dart';
+import '../../../controllers/home_camera_controller.dart';
 
 class CameraWidget extends StatelessWidget {
   const CameraWidget({
@@ -37,7 +39,9 @@ class CameraWidget extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.cameraController!.setFlashMode(FlashMode.off);
+                    },
                     icon: const Icon(
                       Icons.flash_off,
                       color: Colors.white,
@@ -205,30 +209,51 @@ class CameraWidget extends StatelessWidget {
                       height: width * 0.12,
                       width: width * 0.12,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: Colors.green),
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white60,
+                      ),
+                      child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                        child: Image.file(File(
+                            '/data/user/0/com.atom.cam_snap/cache/b555d5d8-ea17-45a7-b74a-ba7f75fd1d463440680182134330409.jpg'), 
+                            fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) {
+                               return Container(
+                      height: width * 0.12,
+                      width: width * 0.12,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white60,
+                      ),
+                      
+                    );
+                            },),
+                      ),
                     ),
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 28,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 22,
+                    InkWell(
+                      onTap: () async {
+                        var value = await controller.captureImage();
+                        print("------------------------- ${value.toString()}");
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 28,
                         child: CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 20,
+                          backgroundColor: Colors.black,
+                          radius: 22,
                           child: CircleAvatar(
-                            backgroundColor: Colors.black,
-                            radius: 18,
+                            backgroundColor: Colors.green,
+                            radius: 20,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 18,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     IconButton(
                       onPressed: () {
-                        controller.switchCamer(1);
-
-                        controller.refresh();
+                        controller.switchCamera(1);
                       },
                       icon: const Icon(
                         CupertinoIcons.switch_camera,

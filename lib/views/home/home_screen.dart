@@ -1,6 +1,6 @@
-import 'package:cam_snap/controllers/home_controller.dart';
-import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cam_snap/controllers/home_camera_controller.dart';
+// import 'package:camera/camera.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,6 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final camera = controller.cameras.first;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -29,11 +28,12 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ),
         ),
-        body: FutureBuilder(
-          future: Future.delayed(const Duration(seconds: 3)),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return Column(
+        body: Obx(() {
+           return !controller.isCameraLoaded.value
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
                 children: [
                   Expanded(
                     child: CameraWidget(
@@ -41,21 +41,18 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ],
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return _loadingWidget();
-            }
-            return _errorWidget();
-          },
-        ));
-  }
-
-  Center _loadingWidget() => const Center(child: CircularProgressIndicator());
-
-  Center _errorWidget() {
-    return const Center(
-      child: Text("Ups! Something went wrong."),
-    );
+        }));
   }
 }
 
+//   Center _loadingWidget() => const Center(child: CircularProgressIndicator());
 
+//   Center _errorWidget() {
+//     return const Center(
+//       child: Text(
+//         "Ups! Something went wrong.",
+//         style: TextStyle(color: Colors.white),
+//       ),
+//     );
+//   }
+// }

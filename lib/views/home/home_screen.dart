@@ -37,7 +37,7 @@ class HomeScreen extends GetView<HomeController> {
                 children: [
                   Expanded(
                     child: CameraWidget(
-                        controller: controller, height: height, width: width),
+                        height: height, width: width),
                   ),
                 ],
               );

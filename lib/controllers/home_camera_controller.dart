@@ -6,10 +6,14 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
+  RxBool showBottomSheet = true.obs;
   List<CameraDescription> cameras = [];
   CameraController? cameraController;
   RxBool isCameraLoaded = false.obs;
   RxString recentCapturedImage = "".obs;
+  RxList<String> imagePaths = <String>[].obs;
+  RxInt currentImageIndex = 0.obs;
+
   // For Ratio
   RxBool isRatioPressed = false.obs;
   // For Flash
@@ -92,14 +96,14 @@ class HomeController extends GetxController {
   Future<void> captureImage() async {
     try {
       if (cameraController != null && cameraController!.value.isInitialized) {
-        if (cameraController!.value.isStreamingImages) {
-          await cameraController!.stopImageStream();
+       
 
           XFile xFile = await cameraController!.takePicture();
           if (xFile.path.isNotEmpty) {
+            imagePaths.add(xFile.path);
             recentCapturedImage.value = xFile.path;
           }
-        }
+        
       } else {
         print("[ERROR]: Camera is not initialized------------------->");
       }

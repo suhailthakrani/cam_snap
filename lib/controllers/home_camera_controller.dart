@@ -7,6 +7,8 @@ class HomeController extends GetxController {
   CameraController? cameraController;
   RxBool isCameraLoaded = false.obs;
   RxString recentCapturedImage = "".obs;
+  //
+  RxBool isFlashOn = false.obs;
 
   // Temporarily
   int selectedCamera = 0;
@@ -49,4 +51,5 @@ class HomeController extends GetxController {
       print('[Error capturing image]: $e');
     }
   }
+ 
 }

@@ -1,4 +1,5 @@
 import 'package:cam_snap/controllers/home_camera_controller.dart';
+import 'package:cam_snap/controllers/settings_controller.dart';
 import 'package:cam_snap/views/home/components/image_view.dart';
 import 'package:cam_snap/views/settings/settings_screen.dart';
 import 'package:camera/camera.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    Get.lazyPut(() => SettingsController());
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,

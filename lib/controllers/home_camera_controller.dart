@@ -34,6 +34,14 @@ class HomeController extends GetxController {
     await initializeCamera();
     super.onInit();
   }
+    @override
+  Future<void> onClose() async {
+    cameraController!.stopImageStream();
+    cameraController!.dispose();
+    super.onClose();
+  }
+  
+  
 
   Future<void> initializeCamera() async {
     try {
@@ -95,9 +103,11 @@ class HomeController extends GetxController {
 
   Future<void> captureImage() async {
     try {
+      
       if (cameraController != null && cameraController!.value.isInitialized) {
-       
-
+           if (cameraController!.value.isStreamingImages) {
+          await cameraController!.stopImageStream();
+        }
           XFile xFile = await cameraController!.takePicture();
           if (xFile.path.isNotEmpty) {
             imagePaths.add(xFile.path);

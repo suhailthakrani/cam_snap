@@ -13,13 +13,13 @@ class ImageView extends GetView<HomeController> {
     Map<String, dynamic> date = Get.arguments;
     return Obx(() {
       return Scaffold(
-        backgroundColor: Colors.transparent,
-        // extendBodyBehindAppBar: true,
+         backgroundColor: Colors.black87,
+        extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          backgroundColor: Colors.black87,
+          title: Stack(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 (date['creationDateTime']) != null &&
@@ -65,32 +65,25 @@ class ImageView extends GetView<HomeController> {
         body: PageView.builder(
           itemCount: controller.imagePaths.length,
           itemBuilder: (context, index) {
+            List<String> imagePaths =List.from( controller.imagePaths.reversed);
             return GestureDetector(
-              onHorizontalDragStart: (details) => controller.showBottomSheet.value = false,
-              onHorizontalDragEnd: (details) => controller.showBottomSheet.value = true,
-              onVerticalDragEnd: (details) => controller.showBottomSheet.value = true,
-              onVerticalDragStart: (details) =>controller.showBottomSheet.value = false,
-
-              // onHorizontalDragEnd: (details) {
-              //   if (details.velocity.pixelsPerSecond.dx > 0) {
-              //     // Swipe right
-              //     if (index > 0) {
-              //       controller.currentImageIndex.value--;
-              //     }
-              //   } else if (details.velocity.pixelsPerSecond.dx < 0) {
-              //     // Swipe left
-              //     if (index < controller.imagePaths.length - 1) {
-              //       controller.currentImageIndex.value++;
-              //     }
-              //   }
-              // },
-              child: Image.file(File(controller.imagePaths[index])),
+              onVerticalDragEnd: (details) =>
+                  controller.showBottomSheet.value = true,
+              onVerticalDragStart: (details) =>
+                  controller.showBottomSheet.value = false,
+              child: Image.file(
+                File(imagePaths[index]),
+                height: Get.height,
+                fit: BoxFit.fitHeight,
+                width: MediaQuery.of(context).size.width,
+              ),
             );
           },
         ),
         bottomSheet: Visibility(
           visible: controller.showBottomSheet.value,
           child: Container(
+       
             padding: const EdgeInsets.all(16),
             height: MediaQuery.of(context).size.height * 0.1,
             child: const Row(
@@ -123,9 +116,9 @@ class ImageView extends GetView<HomeController> {
                 Column(
                   children: [
                     Icon(
-                      Icons.more_vert,
+                      CupertinoIcons.delete,
                     ),
-                    Text("More"),
+                    Text("Delete"),
                   ],
                 ),
               ],

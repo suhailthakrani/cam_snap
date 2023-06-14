@@ -290,7 +290,9 @@ class CameraWidget extends StatelessWidget {
                                             },
                                           )),
                                     )
-                                  : const SizedBox();
+                                  : const Tooltip(
+                                      message: "No recent Image",
+                                      child: SizedBox());
                             }),
                           ),
                           getCaptureImageButton(controller),

@@ -10,7 +10,7 @@ class ImageView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = DateTime.now();
+    Map<String, dynamic> date = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.transparent,
       // extendBodyBehindAppBar: true,
@@ -21,18 +21,15 @@ class ImageView extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              // TODO: Add data of file creation and take the from file name
-              //
-              // "${controller.getWordMonth(dateTime.month)} ${dateTime.day}, ${dateTime.year}",
-              "${dateTime.day}-${dateTime.month}, ${dateTime.year}",
-              style: const TextStyle(
+               (date['creationDateTime']) != null && (date['creationDateTime']).isNotEmpty != "" ? (date['creationDateTime']).first ?? "": controller.recentCapturedImage.value.split('/').last.toLowerCase(),
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
+                fontSize:  (date['creationDateTime']) != null? 18: 14,
               ),
             ),
             Text(
-              "${dateTime.hour}:${dateTime.minute}",
+             (date['creationDateTime']) != null ?(date['creationDateTime']).last : "",
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -43,7 +40,9 @@ class ImageView extends GetView<HomeController> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              
+            },
             icon: const Icon(
               Icons.whatshot_sharp,
               color: Colors.green,

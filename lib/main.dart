@@ -1,5 +1,6 @@
 import 'package:cam_snap/controllers/home_camera_controller.dart';
 import 'package:cam_snap/views/home/components/image_view.dart';
+import 'package:cam_snap/views/settings/settings_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/":(context) => const HomeScreen(),
         "/image_view":(context) => const ImageView(),
+         "/settings":(context) => const SettingsScreen(),
         
       },
     );
